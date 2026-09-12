@@ -30,7 +30,7 @@ import {Preview} from "../preview";
 import {downloadNpc, type RoomNpcMap} from "../data/npc";
 import {downloadVersion} from "../versions";
 import {config} from "../config";
-import {readerFromParsed, DEFAULT_BIG_MAP_THRESHOLD} from "../data/loadMapData";
+import {readerFromParsed, currentColors, DEFAULT_BIG_MAP_THRESHOLD} from "../data/loadMapData";
 
 const rainbow = ["#CC99C9", "#9EC1CF", "#9EE09E", "#FDFD97", "#FEB144", "#FF6663"];
 let pathPick = 0;
@@ -816,7 +816,10 @@ export class MapController {
         if (!config.versionsFilesUrl) return;
         downloadVersion(tag, config.versionsFilesUrl).then(data => {
             const threshold = config.bigMapThreshold ?? DEFAULT_BIG_MAP_THRESHOLD;
-            this.reader = readerFromParsed({mapData: data as MapData.Map, colors}, threshold);
+            // Only mapData is versioned; the colours stay those of the loaded map. This used to
+            // read the legacy `colors` global, which does not exist for a host that configures
+            // colorsUrl/mapUrl — every switch threw "colors is not defined" there.
+            this.reader = readerFromParsed({mapData: data as MapData.Map, colors: currentColors()}, threshold);
             this.pathFinder = new PathFinder(this.reader);
             this.renderer = new MapRenderer(this.reader, this.settings, this.map);
             if (this.renderMode !== "normal") this.applyRenderMode(this.renderMode);

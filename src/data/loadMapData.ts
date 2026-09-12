@@ -31,8 +31,23 @@ function isJsonUrl(url: string): boolean {
     return new URL(url, location.href).pathname.toLowerCase().endsWith(".json");
 }
 
+/**
+ * Env colours behind the reader currently on screen. `MapController.replaceVersion`
+ * rebuilds a reader from a different version's `mapData` alone — the colours are
+ * not versioned and are not re-fetched — so they have to be remembered here. Empty
+ * only for a big `.dat` parsed straight into a skeleton, where the raw envs are
+ * folded into the skeleton and never surface.
+ */
+let loadedColors: MapData.Env[] = [];
+
+/** Env colours used to build the current reader; see {@link loadedColors}. */
+export function currentColors(): MapData.Env[] {
+    return loadedColors;
+}
+
 /** Build the live reader from already-parsed map data, promoting big maps to a skeleton + LOD. */
 export function readerFromParsed({mapData, colors}: ParsedMapData, threshold: number): IMapReader {
+    loadedColors = colors;
     let total = 0;
     for (const area of mapData) total += area.rooms.length;
     if (total > threshold) {
@@ -77,6 +92,7 @@ async function loadFromDat(url: string, threshold: number, onStatus?: (status: L
     });
 
     onStatus?.({phase: "building"});
+    if (loaded.kind === "plain") loadedColors = loaded.envs;
     return readerFromLoadedMap(loaded);
 }
 
