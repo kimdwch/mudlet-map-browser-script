@@ -4,9 +4,8 @@
  * In the previous DOM-driven build these strings lived inline in the hosting
  * page's index.html (as `data-i18n` element contents) and the few direction /
  * message keys came from `i18n/pl.json`. Now the markup lives in this bundle,
- * so the full Polish dictionary is baked in here. At runtime the I18nProvider
- * still fetches `i18n/pl.json` and `i18n/en.json` from the host so deployments
- * can override or extend any string.
+ * so the full Polish dictionary is baked in here. Hosts can override or
+ * extend the bundled dictionaries through MAP_CONFIG.translations.
  */
 export const pl: Record<string, string> = {
     title: "Map",
@@ -191,7 +190,96 @@ export const en: Record<string, string> = {
     mapLoadingBuilding: "Building map…",
 };
 
+/** Baked Korean dictionary. */
+export const ko: Dictionary = {
+    title: "지도",
+    copy: "복사",
+    save: "저장",
+    "save-png": "PNG로 저장",
+    "save-svg": "SVG로 저장",
+    search: "검색",
+    "find-path": "경로 찾기",
+    settings: "설정",
+    help: "도움말",
+    "room-count": "방 개수",
+    exits: "출구",
+    "search-label": "방 ID 또는 소포 수령인의 전체 이름:",
+    "start-loc": "시작 방:",
+    "end-loc": "목적지:",
+    "location-size": "방 크기",
+    "line-thickness": "선 두께",
+    "uniform-areas": "지역 내 레벨 크기 통일",
+    "keep-zoom-level": "확대/축소 수준 유지",
+    "room-shape": "방 모양",
+    rectangle: "사각형",
+    "rounded-rectangle": "둥근 사각형",
+    circle: "원",
+    "label-render-mode": "라벨 표시 방식",
+    "label-image": "이미지",
+    "label-data": "데이터",
+    "label-data-transparent": "데이터 (투명 배경)",
+    "label-none": "없음",
+    "location-borders": "방 테두리",
+    "render-mode": "렌더링 모드",
+    "render-normal": "기본",
+    "render-pencil": "연필",
+    "render-parchment": "양피지",
+    "render-parchment-pencil": "양피지 + 연필",
+    "render-isometric": "등각 투영",
+    "render-isometric-parchment": "등각 투영 + 양피지",
+    "render-blueprint": "청사진",
+    "render-neon": "네온",
+    "render-gradient": "그라데이션",
+    "iso-rotation": "등각 투영 회전",
+    "room-style": "방 스타일",
+    "render-frame": "프레임",
+    "render-colored": "색상 적용",
+    "emboss-locations": "방 양각 효과",
+    "area-names": "지역 이름",
+    "area-exit-labels": "지역 출구 라벨",
+    grid: "격자",
+    background: "지도 배경",
+    "line-color": "선 색상",
+    minimap: "미니맵",
+    defaults: "기본값",
+    "this-help": "도움말 열기",
+    "search-help": "검색",
+    "zoom-in": "확대",
+    "zoom-out": "축소",
+    "map-move": "지도 이동",
+    "move-instruction": "방을 선택한 상태에서 숫자 키패드를 사용하면 일반 출구를 따라 이동할 수 있습니다.",
+    author: "제작자",
+    "switch-map-version": "지도 버전 전환:",
+    "location-id": "방 ID",
+    name: "이름",
+    coordinates: "좌표",
+    special: "특수",
+    other: "기타",
+    packages: "소포",
+    paths: "경로",
+    north: "북쪽",
+    south: "남쪽",
+    east: "동쪽",
+    west: "서쪽",
+    northeast: "북동쪽",
+    northwest: "북서쪽",
+    southeast: "남동쪽",
+    southwest: "남서쪽",
+    up: "위",
+    down: "아래",
+    copied: "클립보드에 복사했습니다",
+    "no-clipboard": "브라우저에서 클립보드 복사를 지원하지 않습니다",
+    "settings-saved": "설정을 저장했습니다",
+    "location-not-found": "방을 찾을 수 없습니다",
+    delete: "삭제",
+    "no-path": "경로를 찾을 수 없습니다",
+    mapLoadError: "지도 데이터를 불러오지 못했습니다.",
+    mapLoadingStreaming: "방 불러오는 중…",
+    mapLoadingFinalizing: "마무리 중…",
+    mapLoadingBuilding: "지도 구성 중…",
+};
+
 export type Dictionary = Record<string, string>;
 
 /** Translations that ship with the bundle, keyed by language code. */
-export const bakedDictionaries: Record<string, Dictionary> = {pl, en};
+export const bakedDictionaries: Record<string, Dictionary> = {pl, en, ko};

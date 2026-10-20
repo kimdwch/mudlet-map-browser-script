@@ -3,7 +3,7 @@ import {bakedDictionaries, pl as plDefaults, type Dictionary} from "./defaults";
 import {config, type LanguageOption} from "../config";
 
 const PERSIST_KEY = "preferred_language";
-const DEFAULT_LANGUAGES: LanguageOption[] = [{code: "pl"}, {code: "en", flag: "gb"}];
+const DEFAULT_LANGUAGES: LanguageOption[] = [{code: "ko", flag: "kr"}, {code: "pl"}, {code: "en", flag: "gb"}];
 
 export interface ResolvedLanguage {
     code: string;
@@ -41,7 +41,7 @@ function detectDefaultLanguage(): string {
     if (persisted && supportedCodes.includes(persisted)) return persisted;
     const htmlLang = document.documentElement.getAttribute("lang");
     if (htmlLang && supportedCodes.includes(htmlLang)) return htmlLang;
-    return supportedCodes[0] ?? "pl";
+    return supportedCodes[0] ?? "ko";
 }
 
 export function I18nProvider({children}: {children: ReactNode}) {

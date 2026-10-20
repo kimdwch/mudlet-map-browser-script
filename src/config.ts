@@ -88,21 +88,21 @@ export interface MapConfig {
     logo?: string;
     /**
      * Extra / overriding UI strings, keyed by language code then translation key.
-     * Merged ON TOP of the bundled Polish + English dictionaries, so you can tweak
+     * Merged ON TOP of the bundled Korean + Polish + English dictionaries, so you can tweak
      * individual strings or add an entirely new language:
      *   translations: { en: { search: "Find" }, de: { search: "Suchen", ... } }
      */
     translations?: Record<string, Record<string, string>>;
     /**
      * Languages offered in the picker (and their flag-sprite suffix). Defaults to
-     * Polish + English. Add an entry here to surface a language supplied via
-     * `translations`: languages: [{ code: "pl" }, { code: "en", flag: "gb" }, { code: "de" }]
+     * Korean + Polish + English, with Korean as the default. Add an entry here to surface a language supplied via
+     * `translations`: languages: [{ code: "ko", flag: "kr" }, { code: "pl" }, { code: "en", flag: "gb" }, { code: "de" }]
      */
     languages?: LanguageOption[];
 }
 
 export interface LanguageOption {
-    /** Language code, e.g. "pl", "en", "de". */
+    /** Language code, e.g. "ko", "pl", "en", "de". */
     code: string;
     /** Flag sprite suffix (`.flag-<flag>`); defaults to the language code. */
     flag?: string;

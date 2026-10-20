@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" data-bs-theme="light">
+<html lang="ko" data-bs-theme="light">
     <!--
       Demo / dev shell for the React map browser bundle.
 
@@ -12,14 +12,14 @@
 
       CSS (Bootstrap + app styles + flag sprite) is bundled by the app itself — in
       dev it's injected by Vite; a production host links dist/index.min.css instead.
-      Translations (Polish + English) are bundled too; only the favicon comes from
+      Translations (Korean + Polish + English) are bundled too; only the favicon comes from
       the live deployment.
     -->
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="theme-color" content="#0a0a0f" />
-        <title>Mapa Arkadii — demo</title>
+        <title>아르카디아 지도 — 데모</title>
         <link rel="shortcut icon" type="image/x-icon" href="https://delwing.github.io/arkadia-mapa/favicon.ico" />
         <!-- Lay the React tree out as if its children were direct children of <body>. -->
         <style>
@@ -47,7 +47,7 @@
                 npcUrl: "https://delwing.github.io/arkadia-mapa/data/npc.json",
                 versionsTagsUrl: "https://api.github.com/repos/Delwing/arkadia-mapa/releases?per_page=200",
                 versionsFilesUrl: "https://arkadia-mapa.delwing.workers.dev/?tag=%tag%",
-                title: { pl: "Mapa Arkadii", en: "Arkadia Map" },
+                title: { pl: "Mapa Arkadii", en: "Arkadia Map", ko: "아르카디아 지도" },
                 logo: "https://delwing.github.io/arkadia-mapa/images/logo.png",
                 credits: {
                     author: "Dargoth",
@@ -55,13 +55,14 @@
                     remark: {
                         pl: "Mapa powstała przy współpracy wielu osób ze społeczności Arkadii w projekcie <b>dzordzyka</b>",
                         en: "Map was created by many authors from Arkadia's communities in project under lead of <b>dzordzyk</b>",
+                        ko: "이 지도는 <b>dzordzyk</b>이 이끄는 프로젝트에서 아르카디아 커뮤니티의 여러 제작자가 함께 만들었습니다.",
                     },
                 },
 
-                // Polish + English are bundled. To override a string or add a language,
+                // Korean + Polish + English are bundled. To override a string or add a language,
                 // merge it here (and list new languages so they appear in the picker):
                 // translations: { en: { search: "Find" }, de: { search: "Suchen", settings: "Einstellungen" } },
-                // languages: [{ code: "pl" }, { code: "en", flag: "gb" }, { code: "de" }],
+                // languages: [{ code: "ko", flag: "kr" }, { code: "pl" }, { code: "en", flag: "gb" }, { code: "de" }],
             };
         </script>
         <script type="module" src="./main.tsx"></script>
