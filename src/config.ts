@@ -50,7 +50,8 @@ export interface MapConfig {
      * 1. `mapUrl` — a Mudlet binary map (`.dat`) OR a combined JSON file. A `.dat`
      *    is decoded in-browser via `mudlet-map-binary-reader` (no build step, and
      *    the binary is smaller than the exported JS). A `.json` is read as the
-     *    `{ mapData, colors }` shape returned by the reader's `export()`.
+     *    `{ mapData, colors }` shape returned by the reader's `export()`, or a
+     *    Mudlet JSON export with `formatVersion: 1` and `areas`.
      * 2. `mapDataUrl` + `colorsUrl` — the renderer export served as two JSON
      *    arrays (the `.json` equivalent of the old `mapExport.js` / `colors.js`).
      */

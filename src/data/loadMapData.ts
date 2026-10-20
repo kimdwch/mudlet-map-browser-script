@@ -4,6 +4,7 @@ import {SkeletonMapReader, buildSkeleton} from "mudlet-map-renderer/bigmap";
 import {config} from "../config";
 import MapLoadWorker from "./mapLoadWorker?worker&inline";
 import type {LoadRequest, StreamMsg} from "./mapLoadWorker";
+import {fromMudletJson, type MudletJsonMap} from "./mudletJson";
 
 /** Below this many total rooms, matches the renderer's own `loadMudletMap` default. */
 export const DEFAULT_BIG_MAP_THRESHOLD = 50_000;
@@ -110,9 +111,9 @@ export async function loadMapReader(onStatus?: (status: LoadStatus) => void): Pr
     const threshold = config.bigMapThreshold ?? DEFAULT_BIG_MAP_THRESHOLD;
 
     if (config.mapUrl) {
-        return isJsonUrl(config.mapUrl)
-            ? readerFromParsed(await fetchJson<ParsedMapData>(config.mapUrl), threshold)
-            : loadFromDat(config.mapUrl, threshold, onStatus);
+        if (!isJsonUrl(config.mapUrl)) return loadFromDat(config.mapUrl, threshold, onStatus);
+        const data = await fetchJson<ParsedMapData | MudletJsonMap>(config.mapUrl);
+        return readerFromParsed("areas" in data ? fromMudletJson(data) : data, threshold);
     }
 
     if (config.mapDataUrl && config.colorsUrl) {

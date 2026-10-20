@@ -143,6 +143,10 @@ Bootstrap modals, dropdowns, and toasts use the `data-bs-*` data API (Bootstrap 
 
 ## Deployment
 
+This repository's GitHub Pages deployment uses `demo/public/index.html` and loads
+the Jura map from `demo/public/jura/jura2-map.json`. The map JSON is copied into
+`dist/jura/` during the build. The local demo configuration is separate.
+
 Pushing a `*.*.*` tag runs the [`Publish to npm`](.github/workflows/publish.yml) GitHub Action, which builds the bundle and runs `npm publish --provenance --access public`. The published package contains only the `dist/` folder.
 
 ## License

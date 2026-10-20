@@ -402,7 +402,7 @@ export class MapController {
             if (params.area) {
                 area = parseInt(params.area);
                 history.replaceState(null, "", url);
-            } else if (this.storedPosition !== null && this.storedPosition.area) {
+            } else if (this.storedPosition !== null && this.reader.getArea(this.storedPosition.area)) {
                 area = this.storedPosition.area;
                 zIdx = this.storedPosition.zIndex;
             }

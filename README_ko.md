@@ -190,6 +190,10 @@ Bootstrap 모달, 드롭다운, 토스트는 `data-bs-*` 데이터 API를 통해
 
 ## 배포
 
+이 저장소의 GitHub Pages 배포 페이지는 `demo/public/index.html`을 사용하며,
+`demo/public/jura/jura2-map.json`의 Jura 지도를 불러옵니다.
+지도 JSON은 빌드할 때 `dist/jura/`에 복사됩니다. 로컬 데모의 설정은 별개입니다.
+
 `*.*.*` 태그를 푸시하면 [`Publish to npm`](.github/workflows/publish.yml) GitHub Action이
 실행되어 번들을 빌드하고 `npm publish --provenance --access public`를 실행합니다.
 배포되는 패키지에는 `dist/` 폴더만 포함됩니다.
