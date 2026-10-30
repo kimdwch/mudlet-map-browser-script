@@ -136,6 +136,7 @@ export class MapController {
 
     private progressTimeout: ReturnType<typeof setTimeout> | undefined;
     private suppressSettingsApply = false;
+    private ignoreNpcData = false;
 
     constructor(map: HTMLDivElement, reader: IMapReader, options: MapControllerOptions) {
         this.map = map;
@@ -195,6 +196,7 @@ export class MapController {
 
         downloadNpc()
             .then(value => {
+                if (this.ignoreNpcData) return;
                 this.roomNpc = value;
                 this.emitter.emit("npc", value);
             })
@@ -390,8 +392,10 @@ export class MapController {
             return;
         }
 
-        let area = this.reader.getAreas()[0].getAreaId();
-        let zIdx = 0;
+        const firstArea = this.reader.getAreas().find(area => area.getZLevels().length > 0);
+        if (!firstArea) throw new Error("The map contains no rooms.");
+        let area = firstArea.getAreaId();
+        let zIdx = firstArea.getZLevels()[0];
         if (params.loc) {
             this.findRoom(parseInt(params.loc));
             history.replaceState(null, "", url);
@@ -580,6 +584,28 @@ export class MapController {
             return true;
         }
         return false;
+    }
+
+    replaceMap(reader: IMapReader) {
+        const firstArea = reader.getAreas().find(area => area.getZLevels().length > 0);
+        if (!firstArea) throw new Error("The map contains no rooms.");
+
+        this.reader = reader;
+        this.pathFinder = new PathFinder(reader);
+        this.renderer = new MapRenderer(reader, this.settings, this.map);
+        if (this.renderMode !== "normal") this.applyRenderMode(this.renderMode);
+
+        this.paths = {};
+        this.selectedRoom = null;
+        this.versionTag = null;
+        this.ignoreNpcData = true;
+        this.roomNpc = {};
+        this.emitter.emit("paths", this.getPaths());
+        this.emitter.emit("selected", null);
+        this.emitter.emit("version", null);
+        this.emitter.emit("npc", this.roomNpc);
+        this.emitter.emit("areas", this.getAreas());
+        this.renderArea(firstArea.getAreaId(), firstArea.getZLevels()[0], true);
     }
 
     private emitLevels(levels: number[], current: number) {

@@ -214,6 +214,16 @@ h2 {
     letter-spacing: -0.01em;
 }
 
+.brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-brand-icon {
+    flex-shrink: 0;
+}
+
 h2 a,
 h2 a:hover {
     text-decoration: none;
@@ -312,6 +322,10 @@ select.form-select option {
     gap: 6px;
     align-items: center;
     flex-wrap: nowrap;
+}
+
+.toolbar-map-controls {
+    display: contents;
 }
 
 header .btn-secondary,
@@ -1356,10 +1370,6 @@ mark {
         margin: 0;
     }
 
-    h2 span {
-        display: none;
-    }
-
     .area-form {
         width: 140px;
     }
@@ -1405,10 +1415,6 @@ mark {
 
     h2 {
         font-size: 16px;
-    }
-
-    h2 span {
-        display: none;
     }
 
     .logo {
@@ -1708,6 +1714,30 @@ mark {
     font-weight: 400;
     opacity: 0.7;
     word-break: break-word;
+}
+
+.map-empty-state {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    max-width: min(90%, 480px);
+    padding: 18px 22px;
+    border-radius: var(--radius);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    color: var(--text-strong);
+    text-align: center;
+    font-weight: 600;
+}
+
+.map-empty-state-hint {
+    margin-top: 8px;
+    font-size: 0.85em;
+    font-weight: 400;
+    color: var(--text-muted);
 }
 
 .map-load-status {

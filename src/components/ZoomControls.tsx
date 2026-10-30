@@ -3,6 +3,7 @@ import {DashIcon, PlusIcon} from "./Icons";
 
 export function ZoomControls() {
     const controller = useController();
+    if (!controller) return null;
     return (
         <div className="zoom-controls">
             <button className="btn btn-secondary btn-sm" data-factor="1.1" onClick={() => controller?.zoomBy(1.1)}>

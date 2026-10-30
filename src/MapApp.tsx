@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {loadMapReader, type LoadStatus} from "./data/loadMapData";
+import {loadMapReader, NoMapSourceError, type LoadStatus} from "./data/loadMapData";
+import type {IMapReader} from "mudlet-map-renderer";
 import {MapController} from "./map/MapController";
 import {MapControllerContext} from "./map/context";
 import {useI18n} from "./i18n/I18n";
@@ -24,6 +25,8 @@ export function MapApp() {
     tRef.current = t;
     const [controller, setController] = useState<MapController | null>(null);
     const [loadError, setLoadError] = useState<string | null>(null);
+    const [emptyMap, setEmptyMap] = useState(false);
+    const [importError, setImportError] = useState<string | null>(null);
     const [loadStatus, setLoadStatus] = useState<LoadStatus | null>(null);
     // Only reveal the loading overlay once loading has taken a moment — an
     // ordinary small map resolves the whole worker round-trip (finalizing +
@@ -53,6 +56,10 @@ export function MapApp() {
                 if (cancelled) return;
                 clearTimeout(revealTimer);
                 setShowLoading(false);
+                if (err instanceof NoMapSourceError) {
+                    setEmptyMap(true);
+                    return;
+                }
                 console.error("mudlet-map-browser: failed to load map data", err);
                 setLoadError(err instanceof Error ? err.message : String(err));
             });
@@ -63,12 +70,38 @@ export function MapApp() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    function handleMapLoaded(reader: IMapReader, fileName: string) {
+        if (!mapRef.current) throw new Error("Map canvas is not ready.");
+        const ctrl = new MapController(mapRef.current, reader, {t: key => tRef.current(key)});
+        ctrl.init();
+        setController(ctrl);
+        setEmptyMap(false);
+        setLoadError(null);
+        setImportError(null);
+        (window as any).controls = ctrl;
+        setTimeout(() => ctrl.showToast(`${tRef.current("mapImported")}: ${fileName}`));
+    }
+
     useKeyboardShortcuts(controller);
     useGesturePrevention();
 
     return (
         <MapControllerContext.Provider value={controller}>
-            <Header />
+            <Header
+                canLoadWithoutMap={emptyMap || loadError !== null}
+                onMapLoaded={handleMapLoaded}
+                onImportStart={() => {
+                    setImportError(null);
+                    if (!controller) {
+                        setLoadError(null);
+                        setEmptyMap(true);
+                    }
+                }}
+                onImportError={message => {
+                    setImportError(message);
+                    if (!controller) setEmptyMap(true);
+                }}
+            />
             <AreaInfoModal />
             <SearchModal />
             <FindPathModal />
@@ -84,6 +117,13 @@ export function MapApp() {
                     <div className="map-load-error" role="alert">
                         {t("mapLoadError") || "Failed to load map data."}
                         <div className="map-load-error-detail">{loadError}</div>
+                    </div>
+                )}
+                {emptyMap && (
+                    <div className="map-empty-state" role={importError ? "alert" : "status"}>
+                        <div>{importError ? t("mapImportError") : t("mapEmpty")}</div>
+                        {importError && <div className="map-load-error-detail">{importError}</div>}
+                        <div className="map-empty-state-hint">{t("mapEmptyHint")}</div>
                     </div>
                 )}
                 {!loadError && showLoading && loadStatus && (

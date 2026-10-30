@@ -56,7 +56,7 @@ export function fromMudletJson(doc: MudletJsonMap): {mapData: MapData.Map; color
                 area: area.id,
                 areaId: String(area.id),
                 x: room.coordinates[0],
-                y: -room.coordinates[1],
+                y: room.coordinates[1],
                 z: room.coordinates[2],
                 env: room.environment ?? -1,
                 weight: room.weight ?? 1,

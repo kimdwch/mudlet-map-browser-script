@@ -15,6 +15,16 @@ export type LoadStatus =
     | {phase: "finalizing"}
     | {phase: "building"};
 
+export class NoMapSourceError extends Error {
+    constructor() {
+        super(
+            "mudlet-map-browser: no map source. Set `window.MAP_CONFIG.mapUrl` (a .dat or .json), " +
+                "or `mapDataUrl` + `colorsUrl`.",
+        );
+        this.name = "NoMapSourceError";
+    }
+}
+
 /** The two values a plain (non-streamed) `MapReader`/`SkeletonMapReader` build needs. */
 interface ParsedMapData {
     mapData: MapData.Map;
@@ -132,8 +142,5 @@ export async function loadMapReader(onStatus?: (status: LoadStatus) => void): Pr
         return readerFromParsed({mapData, colors}, threshold);
     }
 
-    throw new Error(
-        "mudlet-map-browser: no map source. Set `window.MAP_CONFIG.mapUrl` (a .dat or .json), " +
-            "or `mapDataUrl` + `colorsUrl`.",
-    );
+    throw new NoMapSourceError();
 }

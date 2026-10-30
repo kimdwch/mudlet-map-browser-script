@@ -8,7 +8,11 @@
  * extend the bundled dictionaries through MAP_CONFIG.translations.
  */
 export const pl: Record<string, string> = {
-    title: "Map",
+    title: "Mudlet",
+    load: "Wczytaj",
+    loading: "Wczytywanie…",
+    mapImported: "Wczytano mapę",
+    mapImportError: "Nie udało się wczytać mapy",
     copy: "Kopiuj",
     save: "Zapisz",
     "save-png": "Zapisz jako PNG",
@@ -93,6 +97,8 @@ export const pl: Record<string, string> = {
     delete: "Usuń",
     "no-path": "Nie udało się znaleźć ścieżki",
     mapLoadError: "Nie udało się wczytać danych mapy.",
+    mapEmpty: "Nie wczytano jeszcze żadnej mapy.",
+    mapEmptyHint: "Wybierz plik JSON MudMapEditor przyciskiem „Wczytaj”.",
     mapLoadingStreaming: "Wczytywanie pokoi…",
     mapLoadingFinalizing: "Finalizowanie…",
     mapLoadingBuilding: "Budowanie mapy…",
@@ -100,7 +106,11 @@ export const pl: Record<string, string> = {
 
 /** Baked English dictionary. Brand-neutral (no Arkadia title/remark). */
 export const en: Record<string, string> = {
-    title: "Map",
+    title: "Mudlet",
+    load: "Load",
+    loading: "Loading…",
+    mapImported: "Map loaded",
+    mapImportError: "Failed to load map",
     copy: "Copy",
     save: "Save",
     "save-png": "Save as PNG",
@@ -185,6 +195,8 @@ export const en: Record<string, string> = {
     delete: "Delete",
     "no-path": "Could not find path",
     mapLoadError: "Failed to load map data.",
+    mapEmpty: "No map has been loaded yet.",
+    mapEmptyHint: "Choose a MudMapEditor JSON file with the Load button.",
     mapLoadingStreaming: "Loading rooms…",
     mapLoadingFinalizing: "Finalizing…",
     mapLoadingBuilding: "Building map…",
@@ -192,7 +204,11 @@ export const en: Record<string, string> = {
 
 /** Baked Korean dictionary. */
 export const ko: Dictionary = {
-    title: "지도",
+    title: "Mudlet",
+    load: "불러오기",
+    loading: "불러오는 중…",
+    mapImported: "맵을 불러왔습니다",
+    mapImportError: "맵을 불러오지 못했습니다",
     copy: "복사",
     save: "저장",
     "save-png": "PNG로 저장",
@@ -274,6 +290,8 @@ export const ko: Dictionary = {
     delete: "삭제",
     "no-path": "경로를 찾을 수 없습니다",
     mapLoadError: "지도 데이터를 불러오지 못했습니다.",
+    mapEmpty: "아직 불러온 맵이 없습니다.",
+    mapEmptyHint: "불러오기 버튼을 눌러 MudMapEditor JSON 파일을 선택하세요.",
     mapLoadingStreaming: "방 불러오는 중…",
     mapLoadingFinalizing: "마무리 중…",
     mapLoadingBuilding: "지도 구성 중…",

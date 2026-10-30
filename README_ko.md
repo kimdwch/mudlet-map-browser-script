@@ -21,6 +21,10 @@ Mudlet 맵 내보내기 파일을 웹 페이지에서 바로 둘러볼 수 있�
   동시에 표시할 수 있으며, 각 경로의 색상을 따로 변경하거나 개별적으로 삭제할 수 있습니다.
 - **이미지 내보내기** — 현재 지역을 **PNG** 또는 **SVG**로 다운로드하거나 PNG를 클립보드에
   바로 복사할 수 있습니다.
+- **맵 불러오기** — 도구 모음에서 MudMapEditor의 Mudlet JSON 내보내기 파일을 선택해 현재
+  맵을 교체할 수 있습니다.
+- **빈 화면으로 시작** — 호스트에서 맵 소스를 설정하지 않으면 맵 없이 시작하며 JSON 내보내기
+  파일을 직접 불러올 수 있습니다.
 - **렌더링 모드** — 맵의 시각 스타일을 전환합니다: `normal`, `pencil`(스케치),
   `parchment`, `parchment-pencil`, `isometric`(회전 조절 가능), `isometric-parchment`,
   `blueprint`, `neon`, `gradient`.
@@ -87,7 +91,8 @@ yarn add mudlet-map-browser-script
 
 이 스크립트는 UI 전체를 직접 렌더링하는 독립형 **React** 애플리케이션입니다. 호스트 페이지에는
 렌더링을 위한 마운트 지점(기존 `#root` 요소가 있으면 사용하고, 없으면 새로 만들어 `<body>`에
-추가)과 설정된 맵 소스만 있으면 됩니다.
+추가)만 있으면 됩니다. 맵 소스는 선택 사항이며, 지정하지 않으면 빈 화면으로 시작해 JSON 파일을
+직접 불러올 수 있습니다.
 
 ```html
 <link rel="stylesheet" href="index.min.css" />
@@ -166,9 +171,8 @@ yarn typecheck   # --noEmit 옵션으로 TypeScript 컴파일러 실행
 ```
 
 `yarn dev`는 `demo/` 디렉터리(Vite 개발 루트)에서 데모를 제공합니다. `demo/index.html`은
-`#root` 마운트 지점, Mudlet `.dat`를 가리키는 `MAP_CONFIG.mapUrl`, 앱으로 구성된 최소 호스트
-페이지입니다. 실제 Arkadia `.dat` 파일을 브라우저에서 디코딩하고 실행 중인 배포 사이트에서
-favicon을 불러오므로 별도 설정 없이도 프로덕션과 유사한 데이터로 개발할 수 있습니다.
+`#root` 마운트 지점, 선택적 호스트 설정, 앱으로 구성된 최소 호스트 페이지입니다. 맵 소스를
+지정하지 않으므로 빈 화면으로 시작하며 JSON 내보내기 파일을 직접 불러올 수 있습니다.
 또한 호스트 페이지에서 번들을 연결하는 방법을 보여 주는 예제이기도 합니다(프로덕션에서는 개발
 모듈 대신 `<script src="index.min.js">` 태그를 사용한다는 점만 다릅니다).
 
@@ -191,8 +195,11 @@ Bootstrap 모달, 드롭다운, 토스트는 `data-bs-*` 데이터 API를 통해
 ## 배포
 
 이 저장소의 GitHub Pages 배포 페이지는 `demo/public/index.html`을 사용하며,
-`demo/public/jura/jura2-map.json`의 Jura 지도를 불러옵니다.
-지도 JSON은 빌드할 때 `dist/jura/`에 복사됩니다. 로컬 데모의 설정은 별개입니다.
+JSON 내보내기 파일을 직접 불러오기 전까지 빈 화면으로 시작합니다.
+`demo/public/jura/jura2-map.json`은 빌드 시 `dist/jura/`에 복사되지만 자동으로 불러오지 않습니다.
+
+Mudlet JSON의 방 좌표는 그대로 렌더러에 전달합니다. 렌더러에서 화면용 Y축을 변환하므로
+북쪽 방은 위에, 남쪽 방은 아래에 표시됩니다.
 
 `*.*.*` 태그를 푸시하면 [`Publish to npm`](.github/workflows/publish.yml) GitHub Action이
 실행되어 번들을 빌드하고 `npm publish --provenance --access public`를 실행합니다.

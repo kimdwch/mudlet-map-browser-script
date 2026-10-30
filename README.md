@@ -13,6 +13,8 @@ The live deployment is available at **https://delwing.github.io/arkadia-mapa/**.
 - **Search** — find rooms by one or more comma-separated room IDs or by NPC name with autocomplete. Results are centered and highlighted.
 - **Pathfinding** — find shortest paths between rooms with Dijkstra's algorithm. Display multiple paths, change each path's color, or remove paths individually.
 - **Image export** — download the current area as **PNG** or **SVG**, or copy a PNG to the clipboard.
+- **Load a map** — choose a Mudlet JSON export from MudMapEditor to display or replace the current map.
+- **Empty start screen** — when the host does not configure a map source, the viewer opens without a map and lets you load a JSON export.
 - **Rendering modes** — switch among `normal`, `pencil`, `parchment`, `parchment-pencil`, `isometric` (with adjustable rotation), `isometric-parchment`, `blueprint`, `neon`, and `gradient`.
 - **Custom settings** — configure background and line colors, room size and shape, line width, label rendering, area names, and area-exit labels. Settings are stored in `localStorage` and migrated across versions.
 - **Minimap preview** — view the current area as a low-resolution overlay with a viewport that updates as you zoom and pan.
@@ -60,7 +62,7 @@ Loading a `.dat` file directly is the simplest option: no separate export step i
 
 ### Required page structure
 
-The script is a standalone **React** application that renders the complete UI. The host page only needs a mount point (an existing `#root` is used, or one is created and appended to `<body>`) and a configured map source:
+The script is a standalone **React** application that renders the complete UI. The host page only needs a mount point (an existing `#root` is used, or one is created and appended to `<body>`). A map source is optional; without one, the viewer starts empty and you can load a JSON file:
 
 ```html
 <link rel="stylesheet" href="index.min.css" />
@@ -127,7 +129,7 @@ yarn build       # Create dist/index.min.js and its source map
 yarn typecheck   # Run the TypeScript compiler with --noEmit
 ```
 
-`yarn dev` serves the demo from the `demo/` directory (the Vite root). `demo/index.html` is a minimal host page containing the `#root` mount point, a `MAP_CONFIG.mapUrl` pointing at a Mudlet `.dat` file, and the app. It decodes the real Arkadia `.dat` file in the browser and loads the favicon from the live deployment, so development uses production-like data without extra setup. The demo also shows how a host page loads the bundle; production uses `<script src="index.min.js">` instead of development modules.
+`yarn dev` serves the demo from the `demo/` directory (the Vite root). `demo/index.html` contains the `#root` mount point, optional host settings, and the app. It starts with an empty map until a JSON export is loaded. The demo also shows how a host page loads the bundle; production uses `<script src="index.min.js">` instead of development modules.
 
 This project is written in TypeScript and React and bundled as a single minified IIFE with [Vite](https://vite.dev/) (see `vite.config.ts`). React is included in the bundle, so the host page does not need to load it separately. Main source modules:
 
@@ -144,8 +146,11 @@ Bootstrap modals, dropdowns, and toasts use the `data-bs-*` data API (Bootstrap 
 ## Deployment
 
 This repository's GitHub Pages deployment uses `demo/public/index.html` and loads
-the Jura map from `demo/public/jura/jura2-map.json`. The map JSON is copied into
-`dist/jura/` during the build. The local demo configuration is separate.
+with an empty map until a JSON export is loaded. The demo map JSON remains copied into
+`dist/jura/` during the build but is not loaded automatically.
+
+Mudlet JSON room coordinates are passed to the renderer unchanged. The renderer
+converts the Y axis for the screen, so north appears above and south below.
 
 Pushing a `*.*.*` tag runs the [`Publish to npm`](.github/workflows/publish.yml) GitHub Action, which builds the bundle and runs `npm publish --provenance --access public`. The published package contains only the `dist/` folder.
 
